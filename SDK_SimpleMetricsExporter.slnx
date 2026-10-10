@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="SimpleMetricsExporter.Test.Api/SimpleMetricsExporter.Test.Api.csproj" Id="79dea799-13b6-4351-90c1-914ef81f19c7" />
+  <Project Path="SimpleMetricsExporter/SimpleMetricsExporter.csproj" Id="a759d1f4-0965-40f3-98fb-872501c3889c" />
+</Solution>
