@@ -4,3 +4,5 @@ GET {{SimpleMetricsExporter.Test.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{SimpleMetricsExporter.Test.Api_HostAddress}}/metrics
