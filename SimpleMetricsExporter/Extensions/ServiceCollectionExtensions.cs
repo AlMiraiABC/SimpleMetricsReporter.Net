@@ -11,8 +11,10 @@ namespace SimpleMetricsExporter.Extensions
     public static class ServiceCollectionExtensions
     {
 
-        public static IServiceCollection AddSimpleMetericsExporter(IServiceCollection services, EnabledMeterics enabledMeterics = EnabledMeterics.All, string endpoint = "/meterics")
+        public static IServiceCollection AddSimpleMetericsExporter(this IServiceCollection services, SimpleMetricsExporterOptions? options = null)
         {
+            options ??= new();
+            var enabledMeterics = options.EnabledMeterics;
             AddSimpleMetericsExporter(services, c =>
             {
                 if ((enabledMeterics & EnabledMeterics.AspNetCore) == EnabledMeterics.AspNetCore)
@@ -39,10 +41,16 @@ namespace SimpleMetricsExporter.Extensions
 #endif
                 if ((enabledMeterics & EnabledMeterics.BuiltIn) == EnabledMeterics.BuiltIn)
                 {
-                    c.AddBuiltInMeterics();
+                    c.AddBuiltInMeterics(options.BuiltInIncludePatterns, options.BuiltInExcludePatterns);
                 }
-                c.AddPrometheusExporter(c => c.ScrapeEndpointPath = endpoint);
+                if (string.IsNullOrWhiteSpace(options.Endpoint))
+                {
+                    options.Endpoint = StaticRouteConstants.DefaultPrefix;
+                }
+                options.Endpoint = options.Endpoint.TrimEnd('/');
+                c.AddPrometheusExporter(c => c.ScrapeEndpointPath = $"{options.Endpoint}/{StaticRouteConstants.DefaultPrometheusEndpoint}");
             });
+            services.AddSingleton(options);
             return services;
         }
 
@@ -65,5 +73,18 @@ namespace SimpleMetricsExporter.Extensions
         SqlClient = 1 << 4,
 #endif
         BuiltIn = 1 << 5,
+#if NET8_0_OR_GREATER
+        Instrumentation = AspNetCore | HttpClient | Runtime | Process | SqlClient,
+#else
+        Instrumentation = AspNetCore | HttpClient | Runtime,
+#endif
+    }
+
+    public class SimpleMetricsExporterOptions
+    {
+        public EnabledMeterics EnabledMeterics { get; set; } = EnabledMeterics.All;
+        public IEnumerable<string>? BuiltInIncludePatterns { get; set; }
+        public IEnumerable<string>? BuiltInExcludePatterns { get; set; }
+        public string Endpoint { get; set; } = StaticRouteConstants.DefaultPrefix;
     }
 }

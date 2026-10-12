@@ -1,0 +1,9 @@
+:root { --page-bg: #f4f7fb; }
+body { background: var(--page-bg); color: #263238; }
+.navbar-brand { letter-spacing: .02em; }
+.metric-card, .chart-card { border: 0; box-shadow: 0 .2rem 1rem rgba(31, 45, 61, .08); }
+.chart { min-height: 320px; }
+.metric-value { font-size: 1.55rem; font-weight: 700; }
+.metric-name { overflow-wrap: anywhere; }
+#sourceText { min-height: 230px; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: .82rem; }
+.output { max-height: 420px; overflow: auto; font-size: .78rem; }

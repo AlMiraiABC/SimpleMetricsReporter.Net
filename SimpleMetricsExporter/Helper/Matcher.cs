@@ -111,6 +111,16 @@ namespace SimpleMetricsExporter.Helper
 
         private static bool IsMatchCore(ReadOnlySpan<char> input, ReadOnlySpan<char> pattern)
         {
+            if (pattern.Length == 0)
+            {
+                return input.Length == 0;
+            }
+
+            if (pattern.Length == 1 && pattern[0] == '*')
+            {
+                return true;
+            }
+
             var inputIndex = 0;
             var patternIndex = 0;
             var starIndex = -1;

@@ -13,8 +13,8 @@ namespace SimpleMetricsExporter.Extensions
     {
         public static MeterProviderBuilder AddBuiltInMeterics(this MeterProviderBuilder builder, IEnumerable<string>? includes = null, IEnumerable<string>? excludes = null)
         {
-            includes = includes ?? Array.Empty<string>();
-            excludes = excludes ?? Array.Empty<string>();
+            includes ??= new string[] { "*" };
+            excludes ??= Array.Empty<string>();
             var meters = BuiltInMetricNames.BuiltInMetricsDiagnostics
                 .Concat(BuiltInMetricNames.BuiltInMetricsRuntime)
                 .Concat(BuiltInMetricNames.BuiltInSystemNet)
