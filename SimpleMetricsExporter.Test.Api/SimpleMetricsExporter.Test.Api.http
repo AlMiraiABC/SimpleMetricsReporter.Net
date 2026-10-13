@@ -1,8 +1,10 @@
 @SimpleMetricsExporter.Test.Api_HostAddress = http://localhost:5226
 
+### HTTP request
+
 GET {{SimpleMetricsExporter.Test.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
-###
+### Get prometheus metrics textr
 
-GET {{SimpleMetricsExporter.Test.Api_HostAddress}}/metrics
+GET {{SimpleMetricsExporter.Test.Api_HostAddress}}/metrics/prometheus
